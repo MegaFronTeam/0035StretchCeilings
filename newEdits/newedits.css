@@ -310,3 +310,16 @@ section.catalog_category .item {
   right: -13px;
   left: auto;
 }
+
+.section-brand-name {
+  padding: 40px 0;
+}
+
+.section-brand-name h3 {
+  text-align: center;
+  margin: 0 0 30px 0;
+}
+
+.section-brand-name .pricer_link {
+  margin-bottom: 0;
+}
