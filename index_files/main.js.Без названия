@@ -1,0 +1,64 @@
+// Top menu
+jQuery('li.has_children').hover(function() {
+    if ($(window).width() >= '768') {
+        jQuery(this).toggleClass('in');
+    }
+});
+$(document).on('click', '[data-toggle=has_children]', function() {
+    $(this).parent().toggleClass('in');
+    $('.navbar-nav li.has_children.in').not($(this).parent()).removeClass('in');
+    return false;
+});
+
+/*Fixed menu*/
+var headerTop = $(".header_top").outerHeight() + $(".header_mid").outerHeight();
+var pageHeader = $('.navbar');
+var heightHeader = pageHeader.outerHeight();
+
+$(window).on('scroll', function() {
+    var winH = $(window).scrollTop();
+    if ($(window).scrollTop() > headerTop) {
+        $('.header-dummy').height(heightHeader);
+        pageHeader.addClass('to_top');
+    } else {
+        $('.header-dummy').height(0);
+        pageHeader.removeClass('to_top');
+    }
+});
+
+// Scroll to Top
+$(document).ready(function(){
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 800);
+        return false;
+    });
+
+    $('#back-to-top').tooltip('show');
+});
+
+// Phone Mask
+jQuery(function($){
+    $("input[class='phone']").mask("+7(999) 999-99-99");
+});
+
+// MagnificPopup
+jQuery('.gallery').each(function() { // the containers for all your galleries
+    jQuery(this).magnificPopup({
+        delegate: 'a', // the selector for gallery item
+        type: 'image',
+        gallery: {
+            enabled:true
+        }
+    });
+});

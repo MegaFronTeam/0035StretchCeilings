@@ -1,0 +1,132 @@
+var defaultInputZone = 10; var defaultInputCorners = 4;
+//var defaultInputTubes = 2;
+
+var textureMatteWhite = 450;var textureMatteColor = 700;
+var textureSatinWhite = 470; var textureSatinColor = 750;
+var textureGlossWhite = 490; var textureGlossColor = 850;
+var textureClothWhite = 1100; var textureClothColor = 1100;
+
+var patternCorner = $('.js-corners').data('cost') || 100; var patternCornerMax = 4;
+var edgingCorner = 250; var edgingCornerMax = 2;
+
+function doCalc(){
+    var textureInput = $('input[name=texture]:checked', '#js-calc-form');
+    var texture = textureInput.val();
+    
+    var colorInput = $('input[name=color]:checked', '#js-calc-form');
+    var color = colorInput.val();
+    var texturePrice = window[texture+color];
+
+    var image = $('#js-calc-image');
+
+    if(image.attr('data') != texture+color){
+        image.hide();
+        image.css('background-image','url(/img/calc/'+texture+color+'.jpg)');
+        image.attr('data',texture+color);
+        image.fadeIn(1000);
+    }
+
+    var inputZone = defaultInputZone;
+    var inputCorners = defaultInputCorners;
+    //var inputTubes = defaultInputTubes;
+    var userInputZone = $('#in1').val();
+    var userInputCorners = $('#in2').val();
+    //var userInputTubes = $('#in3').val();
+
+    if($.isNumeric(userInputZone) && userInputZone > 0){ inputZone = userInputZone; }
+    if($.isNumeric(userInputCorners) && userInputCorners > 0){ inputCorners = userInputCorners; }
+    //if($.isNumeric(userInputTubes) && userInputTubes > 0){ inputTubes = userInputTubes; }
+
+    var totalPrice = texturePrice*inputZone;
+
+    if(inputCorners > patternCornerMax){
+        inputCorners = inputCorners - patternCornerMax;
+        totalPrice = totalPrice+(inputCorners*patternCorner);
+    }
+
+    // if(inputTubes > edgingCornerMax){
+    //     inputTubes = inputTubes - edgingCornerMax;
+    //     totalPrice = totalPrice+(inputTubes*edgingCorner);
+    // }
+
+    $('#js-calc-price').html(parseInt(totalPrice).toLocaleString('ru-RU'));
+    
+    var calcForm = $('.calc__res-form'); 
+    
+    $('input[name=area]', calcForm).val(userInputZone);
+    $('input[name=corner]', calcForm).val(userInputCorners);
+    $('input[name=calc_price]', calcForm).val(totalPrice);
+    
+    $('input[name=texture]', calcForm).val($('label[for="' + textureInput.attr('id') +'"]').text());
+    $('input[name=color]', calcForm).val($('label[for="' + colorInput.attr('id') +'"]').text());
+}
+
+function calcPlus(obj){
+
+    var input = $('#'+$(obj).attr('data'));
+    if(!$.isNumeric(input.val())){
+        input.val("0");
+    } else {
+        var newnum = eval(input.val().trim());
+        newnum++;
+        input.val(newnum);
+    }
+    if(input.val() > 9999) { input.val(1); }
+    doCalc();
+}
+
+function calcMinus(obj){
+
+    var input = $('#'+$(obj).attr('data'));
+    if(!$.isNumeric(input.val()) || eval(input.val())-1<0){
+        input.val("0");
+    } else {
+        var newnum = eval(input.val().trim());
+        newnum--;
+        input.val(newnum);
+    }
+    doCalc();
+}
+
+var rusMonthes = [
+	'января','февраля','марта','апреля', 'мая','июня','июля','августа','сентября', 
+	'октября','ноября','декабря'
+];
+var numberOfDaysToAdd = 9;
+let dateToStart = new Date(2018, 03, 01);
+let dateToFinish = new Date(2019, 03, 30);
+let datesArr = []; 
+
+while (dateToStart < dateToFinish) {
+	datesArr.push(new Date(dateToStart));
+	dateToStart.setDate(dateToStart.getDate() + numberOfDaysToAdd);	
+}
+
+function checkDate() {
+	var currentDate = new Date();
+	for (let i=0; i<=datesArr.length-1; i++) {
+		if (datesArr[i] <= currentDate && currentDate < datesArr[i+1]) {
+			let nextDate = datesArr[i + 1];
+
+    		if (rusMonthes[nextDate.getMonth()] !== undefined) {
+    			$('.js-calc-date').text(nextDate.getDate() + ' ' + rusMonthes[nextDate.getMonth()]);
+    		}
+		}
+	}
+}
+
+
+$(document).ready(function(){
+    $(document).on('input', '#in1, #in2, #in3', function () {
+        $(this).val($(this).val().replace(/[^0-9.]/g, ""));
+        if($(this).val() > 9999) { $(this).val(1); }
+        doCalc();
+    });
+
+
+    $("input[name=texture]:radio,input[name=color]:radio").change(function () {
+        doCalc();
+    });
+    doCalc();
+    checkDate();
+});
