@@ -55,15 +55,6 @@ function eventHandler() {
 
   });
 
-  $('.dd-head-js').on('click', function () {
-    let clickedHead = this;
-    $(this).parent().toggleClass('active');
-    $(this)
-      .next()
-      .slideToggle(function () {
-        $(this).toggleClass('active');
-      });
-  });
   
   $('.toggle-show').on('click', function() {
     $(this).toggleClass('active');
