@@ -176,6 +176,7 @@
   color: #fff;
   background-color: #269e92;
   border-color: #269e92;
+  outline: none;
 }
 
 .cards__row {
@@ -205,6 +206,7 @@
   max-width: 345px;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid #e65100;
 }
 
 .cat_block:hover {
@@ -274,12 +276,11 @@
 .catblock_name {
   position: static;
   clear: both;
-  background-color: rgba(46, 181, 168, 0.9);
+  background-color: #e65100;
 }
 .catblock_name div {
   color: #fff;
   text-decoration: none !important;
-  border-bottom: 1px #fff solid;
   text-align: center;
   padding: 10px 0;
   display: block;
