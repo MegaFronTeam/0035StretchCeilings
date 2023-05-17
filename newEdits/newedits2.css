@@ -201,8 +201,10 @@
 .cat_block {
   transition: all 0.36s ease-out;
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: 100%;
   max-width: 345px;
   margin-left: auto;
   margin-right: auto;
@@ -245,6 +247,9 @@
   bottom: 0;
   left: 0; */
   width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 .catinfo ul {
   display: none;
@@ -277,6 +282,10 @@
   position: static;
   clear: both;
   background-color: #e65100;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .catblock_name div {
   color: #fff;

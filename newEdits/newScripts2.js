@@ -27,11 +27,6 @@ function shuffleArray() {
       cardItemPrice: Number(item.querySelector('.catblock_price span').innerHTML),
     })
   })
-  cardsAscSorted.sort(
-    function(a, b){
-      return parseFloat(a.cardItemPrice) - parseFloat(b.cardItemPrice);
-    }
-  )
 
   let currentIndex = cardsArr.length;
   let temporaryValue, randomIndex;
@@ -58,16 +53,26 @@ function shuffleArray() {
 
   // Ascending sorting
   if (sortByPriceSelcet.value === 'asc') {
+    cardsAscSorted.sort(
+      function(a, b){
+        return parseFloat(a.cardItemPrice) - parseFloat(b.cardItemPrice);
+      }
+    )
     for (const item of cardsRow.children) {
       item.remove();
     }
     for (const item in cardsAscSorted) {
-      cardsRow.insertAdjacentElement('afterbegin', cardsAscSorted[item].cardItemHtml);
+      cardsRow.insertAdjacentElement('beforeend', cardsAscSorted[item].cardItemHtml);
     }
   }
-
+  
   // Descending sorting
   if (sortByPriceSelcet.value === 'ascend') {
+    cardsAscSorted.sort(
+      function(a, b){
+        return parseFloat(b.cardItemPrice) - parseFloat(a.cardItemPrice);
+      }
+    )
     for (const item of cardsRow.children) {
       item.remove();
     }
